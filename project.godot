@@ -1,0 +1,34 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[addons]
+
+string_enum/tools/enable_auto_tool=true
+string_enum/string_suffixes=PackedStringArray("_default_suffix", "_ui")
+string_enum/string_names/_default_suffix=PackedStringArray("ValueA", "ValueB")
+string_enum/string_names/_ui=PackedStringArray("node_a", "node_b", "node_c")
+
+[application]
+
+config/name="String Enum"
+config/features=PackedStringArray("4.2", "Mobile")
+config/icon="res://icon.svg"
+
+[autoload]
+
+UiBank="*res://scripts/ui_bank.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/string_enum/plugin.cfg")
+
+[rendering]
+
+renderer/rendering_method="mobile"

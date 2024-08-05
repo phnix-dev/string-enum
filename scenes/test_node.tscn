@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba1pug5snp7ti"]
+
+[ext_resource type="Script" path="res://scripts/test_node.gd" id="1_gpad6"]
+
+[node name="TestNode" type="Node"]
+script = ExtResource("1_gpad6")
+a = 2
+b_ui = "node_a"
+b_default_suffix = "ValueB"
+
+[node name="Node" type="Node" parent="."]

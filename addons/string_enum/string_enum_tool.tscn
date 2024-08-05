@@ -1,0 +1,75 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtxvrkrol73ht"]
+
+[ext_resource type="Script" path="res://addons/string_enum/string_enum_tool.gd" id="1_v5nmn"]
+[ext_resource type="Texture2D" uid="uid://kwhjt5r3onhj" path="res://addons/string_enum/string_enum_folder.svg" id="2_dcqcf"]
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" node_paths=PackedStringArray("folder_dialog", "suffix_name", "selected_folder", "button_folder")]
+title = "Generate the enum values from a folder."
+initial_position = 1
+size = Vector2i(750, 131)
+visible = true
+ok_button_text = "Generate"
+dialog_hide_on_ok = false
+dialog_close_on_escape = false
+script = ExtResource("1_v5nmn")
+folder_dialog = NodePath("FolderDialog")
+suffix_name = NodePath("VBox/HBox/LineEditName")
+selected_folder = NodePath("VBox/HBox2/LineEditFolder")
+button_folder = NodePath("VBox/HBox2/ButtonFolder")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 742.0
+offset_bottom = 82.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBox" type="HBoxContainer" parent="VBox"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="LabelName" type="Label" parent="VBox/HBox"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Suffix Name: "
+vertical_alignment = 1
+
+[node name="LineEditName" type="LineEdit" parent="VBox/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBox2" type="HBoxContainer" parent="VBox"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="LabelName" type="Label" parent="VBox/HBox2"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Selected Folder: "
+vertical_alignment = 1
+
+[node name="LineEditFolder" type="LineEdit" parent="VBox/HBox2"]
+layout_mode = 2
+size_flags_horizontal = 3
+editable = false
+
+[node name="ButtonFolder" type="Button" parent="VBox/HBox2"]
+layout_mode = 2
+icon = ExtResource("2_dcqcf")
+
+[node name="FolderDialog" type="FileDialog" parent="."]
+title = "Open a Directory"
+initial_position = 1
+size = Vector2i(500, 500)
+ok_button_text = "Select Current Folder"
+file_mode = 2
+
+[connection signal="canceled" from="." to="." method="queue_free"]
+[connection signal="confirmed" from="." to="." method="_on_confirmed"]
+[connection signal="text_changed" from="VBox/HBox/LineEditName" to="." method="_on_line_edit_text_submitted"]
+[connection signal="text_submitted" from="VBox/HBox/LineEditName" to="." method="_on_line_edit_text_submitted"]
+[connection signal="button_down" from="VBox/HBox2/ButtonFolder" to="." method="_on_button_folder_button_down"]
+[connection signal="dir_selected" from="FolderDialog" to="." method="_on_folder_dialog_dir_selected"]
