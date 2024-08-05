@@ -40,9 +40,9 @@ Second, create a new setting value of type PackedStringArray in the path `addons
 
 ### Examples
 
-You can check the `res://scripts/test_node.gd` script to see an example of the string enum at work.
-You can check the `res://scripts/ui_bank.gd` script to see how to easily retrieve scenes at runtime.
-You can check the `res://scenes/test_node.tscn` scene data to see how the values are stored.
+- You can check the `res://scripts/test_node.gd` script to see an example of the string enum at work.
+- You can check the `res://scripts/ui_bank.gd` script to see how to easily retrieve scenes at runtime.
+- You can check the `res://scenes/test_node.tscn` scene data to see how the values are stored.
 
 ## License
 
