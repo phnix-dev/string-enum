@@ -19,8 +19,9 @@ func _enter_tree() -> void:
 	inspector = PATH_INSPECTOR.new()
 	
 	_create_setting_bool(setting_string_tool, true)
-	_create_setting_packed_str(setting_string_suffix, PackedStringArray([DEFAULT_SUFFIX]))
-	_create_setting_packed_str(setting_string_names.path_join(DEFAULT_SUFFIX), PackedStringArray())
+	
+	if _create_setting_packed_str(setting_string_suffix, PackedStringArray([DEFAULT_SUFFIX])):
+		_create_setting_packed_str(setting_string_names.path_join(DEFAULT_SUFFIX), PackedStringArray())
 	
 	add_inspector_plugin(inspector)
 	
@@ -39,7 +40,7 @@ func _create_enums_from_folder() -> void:
 	add_child(scene)
 
 
-func _create_setting_bool(setting_name: String, value: bool) -> void:
+func _create_setting_bool(setting_name: String, value: bool) -> bool:
 	if not ProjectSettings.has_setting(setting_name):
 		var property_info := {
 			"name": setting_name,
@@ -48,9 +49,13 @@ func _create_setting_bool(setting_name: String, value: bool) -> void:
 		
 		ProjectSettings.set_setting(setting_name, value)
 		ProjectSettings.add_property_info(property_info)
+		
+		return true
+	
+	return false
 
 
-func _create_setting_packed_str(setting_name: String, arr: PackedStringArray) -> void:
+func _create_setting_packed_str(setting_name: String, arr: PackedStringArray) -> bool:
 	if not ProjectSettings.has_setting(setting_name):
 		var property_info := {
 			"name": setting_name,
@@ -59,3 +64,7 @@ func _create_setting_packed_str(setting_name: String, arr: PackedStringArray) ->
 		
 		ProjectSettings.set_setting(setting_name, arr)
 		ProjectSettings.add_property_info(property_info)
+		
+		return true
+	
+	return false
