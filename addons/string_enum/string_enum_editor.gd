@@ -4,7 +4,7 @@ extends EditorProperty
 const NULL_VALUE := "none"
 
 var is_updating := false
-var current_string: String
+var current_string: String = NULL_VALUE
 var property_control := OptionButton.new()
 
 
@@ -12,8 +12,8 @@ var property_control := OptionButton.new()
 func _init(names: Array[String]) -> void:
 	property_control.add_item(NULL_VALUE)
 	
-	for name in names:
-		property_control.add_item(name)
+	for item_name in names:
+		property_control.add_item(item_name)
 	
 	add_child(property_control)
 	add_focusable(property_control)
@@ -53,5 +53,6 @@ func _update_property() -> void:
 	if not_found:
 		current_string = NULL_VALUE
 		property_control.select(0)
+		emit_changed(get_edited_property(), current_string)
 		
 	is_updating = false
