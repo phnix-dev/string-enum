@@ -1,3 +1,7 @@
+# ╔═════════════════════════════════════════════════════════════════════╗
+# ║ This file is licensed under the Mozilla Public License Version 2.0. ║
+# ╚═════════════════════════════════════════════════════════════════════╝
+
 extends EditorProperty
 
 

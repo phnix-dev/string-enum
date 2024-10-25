@@ -18,7 +18,7 @@ string_enum/string_names/_ui=PackedStringArray("node_a", "node_b", "node_c")
 [application]
 
 config/name="String Enum"
-config/features=PackedStringArray("4.2", "Mobile")
+config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -28,6 +28,10 @@ UiBank="*res://scripts/ui_bank.gd"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/string_enum/plugin.cfg")
+
+[input_devices]
+
+pen_tablet/driver.windows="wintab"
 
 [rendering]
 

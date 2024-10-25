@@ -1,10 +1,14 @@
+# ╔═════════════════════════════════════════════════════════════════════╗
+# ║ This file is licensed under the Mozilla Public License Version 2.0. ║
+# ╚═════════════════════════════════════════════════════════════════════╝
+
 # class_name UiBank
 extends Node
 ## Stores every scene for easy retrieval at runtime.
 ##
 ## This class is used to store every scene path for easy retrieval at runtime, it is most useful when paired with the [code]string_enum[/code] addon to easily export the names of the scenes in [code]@export[/code] and load them afterwards.
 ## [br]
-## You can use the [code]Create String Enum From Folder[/code] tool to automatically create string enum values based on the scenes in a folder.
+## You can use the [code]Create Enum From Folder[/code] tool to automatically create an enum based on the scenes in a folder.
 ## [br]
 ## This class should be used as an [code]Autoload[/code].
 
@@ -26,8 +30,7 @@ func _ready() -> void:
 		var scene_name := path.get_file().get_slice(".", 0)
 		
 		_scenes[scene_name] = path
-	
-	print(_scenes)
+
 
 ## [param scene_name:] The filename of the scene to load without the extension [br]
 ## [param return:] A PackedScene or null if not found

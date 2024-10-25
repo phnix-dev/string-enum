@@ -7,5 +7,6 @@ script = ExtResource("1_gpad6")
 a = 2
 b_ui = "node_a"
 b_default_suffix = "ValueB"
+b_default2_MyEnum = "ValueC"
 
 [node name="Node" type="Node" parent="."]

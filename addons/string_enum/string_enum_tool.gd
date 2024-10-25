@@ -1,54 +1,73 @@
+# ╔═════════════════════════════════════════════════════════════════════╗
+# ║ This file is licensed under the Mozilla Public License Version 2.0. ║
+# ╚═════════════════════════════════════════════════════════════════════╝
+
 @tool
 extends ConfirmationDialog
 
 
+const ENUM_TEXT := """enum %s {
+%s
+}
+"""
+const ENUM_VALUE := """	"%s",\n"""
+
+
+
+
+
 @export var folder_dialog: FileDialog
-@export var suffix_name: LineEdit
+@export var enum_name: LineEdit
 @export var selected_folder: LineEdit
 @export var button_folder: Button
 
 var StringEnumPlugin := load("res://addons/string_enum/string_enum_plugin.gd")
+var generate_button: Button
 
+
+func _ready() -> void:
+	generate_button = get_ok_button()
+	generate_button.disabled = true
+	generate_button.release_focus()
 
 func _on_confirmed() -> void:
-	var suffix := suffix_name.text
+	var name := enum_name.text
 	var folder := selected_folder.text
 	
-	if not suffix.is_empty() and not folder.is_empty():
-		var path_suffixes: String = StringEnumPlugin.setting_string_suffix
-		var suffixes: PackedStringArray = ProjectSettings.get_setting(path_suffixes).duplicate()
-		
-		if suffixes.find(suffix) == -1:
-			suffixes.append(suffix)
-						
-			var scenes := get_all_scenes(folder)
+	if not name.is_empty() and not folder.is_empty():
+		var scenes := get_all_scenes(folder)
 			
-			if not scenes.is_empty():
-				var path_names: String = StringEnumPlugin.setting_string_names.path_join(suffix)
-				var names := scenes.map(func(str: String): return str.get_file().get_slice(".", 0))
-				var packed_names := PackedStringArray(names)
-				
-				ProjectSettings.set_setting(path_suffixes, suffixes)
-				ProjectSettings.set_setting(path_names, packed_names)
-				
-				var names_formated = names.reduce(func(accum, str): return "%s, " % accum + str, "")
-				names_formated = names_formated.right(-2)
-				names_formated = "[%s]" % names_formated
-				
-				print("[String Enum] Enum values successfully created!")
-				print("[String Enum] Suffix: %s" % suffix)
-				print("[String Enum] Values: %s" % names_formated)
-				print_rich("[String Enum] Due to a [url={https://github.com/godotengine/godot/issues/55145}]Godot bug[/url], the newly created enums may not be saved in the project.godot file, to fix this go to [code]Project Settings > Addons > String Enum > String Names > YourNewSuffix[/code], then add and remove an element from the array.")	
+		if not scenes.is_empty():
+			var names_formated: String = scenes.reduce(
+				func(accum: String, path: String):
+					var file_name := path.get_file().get_slice(".", 0).to_pascal_case()
+					
+					return accum + ENUM_VALUE % path \
+				, ""
+			)
+			names_formated = names_formated.trim_suffix("\n")
+			names_formated = ENUM_TEXT % [name, names_formated]
+			
+			DisplayServer.clipboard_set(names_formated)
+			
+			print(DisplayServer.clipboard_get())
+			
+			print("[String Enum] Enum has been created successfully!")
+			print("[String Enum] It is copied to your clipboard.")
+		else:
+			print("[String Enum] Could not create the enum from the folder!")
+			print("[String Enum] The folder contains no scenes!")
 	
 	queue_free()
 
 
-func _on_line_edit_text_submitted(new_text: String) -> void:
-	if not new_text.begins_with("_"):
-		new_text = "_%s" % new_text
+func _on_line_edit_name_text_submitted(new_text: String) -> void:
+	new_text = new_text.left(1).to_upper() + new_text.right(-1)
 	
-	suffix_name.text = new_text
-	suffix_name.caret_column = new_text.length()
+	enum_name.text = new_text
+	enum_name.caret_column = new_text.length()
+	
+	_enable_generate_button()
 
 
 func _on_button_folder_button_down() -> void:
@@ -57,6 +76,12 @@ func _on_button_folder_button_down() -> void:
 
 func _on_folder_dialog_dir_selected(dir: String) -> void:
 	selected_folder.text = dir
+	
+	_enable_generate_button()
+
+
+func _enable_generate_button() -> void:
+	generate_button.disabled = selected_folder.text.is_empty() or enum_name.text.is_empty()
 
 
 func get_all_scenes(path: String) -> Array[String]:
@@ -73,7 +98,7 @@ func get_all_scenes(path: String) -> Array[String]:
 		while file_name != "":
 			current_path = path.path_join(file_name)
 			
-			if dir.current_is_dir() and file_name != "addons":
+			if dir.current_is_dir() and file_name != "addons" and file_name != ".godot":
 				var subfolder_array = get_all_scenes(current_path)
 				
 				array.append_array(subfolder_array)
