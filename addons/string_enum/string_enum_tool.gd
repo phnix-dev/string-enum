@@ -40,19 +40,16 @@ func _on_confirmed() -> void:
 		if not scenes.is_empty():
 			var names_formated: String = scenes.reduce(
 				func(accum: String, path: String):
-					var file_name := path.get_file().get_slice(".", 0).to_pascal_case()
+					var file_name := path.get_file().get_slice(".", 0).to_upper()
 					
-					return accum + ENUM_VALUE % path \
+					return accum + ENUM_VALUE % file_name \
 				, ""
 			)
 			names_formated = names_formated.trim_suffix("\n")
 			names_formated = ENUM_TEXT % [name, names_formated]
 			
 			DisplayServer.clipboard_set(names_formated)
-			
-			print(DisplayServer.clipboard_get())
-			
-			print("[String Enum] Enum has been created successfully!")
+						
 			print("[String Enum] It is copied to your clipboard.")
 		else:
 			print("[String Enum] Could not create the enum from the folder!")
@@ -102,8 +99,7 @@ func get_all_scenes(path: String) -> Array[String]:
 				var subfolder_array = get_all_scenes(current_path)
 				
 				array.append_array(subfolder_array)
-				
-			elif file_name.get_extension() == "tscn":
+			else:
 				array.append(current_path)
 				
 			file_name = dir.get_next()
