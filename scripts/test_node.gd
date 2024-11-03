@@ -40,4 +40,7 @@ var is_active = true
 @export var a: MyEnum
 @export var b_ui: String
 @export var b_default_suffix: String
-@export var b_default2_MyEnum: String
+@export var default_MyEnum: String
+@export var c__d_MyEnum: String
+@export var a_b__c_MyEnum: String
+@export var _MyEnum: String

@@ -44,7 +44,12 @@ func _parse_property(object: Object, type: Variant.Type, name: String, hint_type
 				dictionary_keys[item] = value
 	
 	## Check if the last part of the string is a Enum
-	var id := name.split("_", false)[-1]
+	var id_split := name.split("_", false)
+	
+	if id_split.size() < 2:
+		return false
+	
+	var id := id_split[-1]
 	
 	if not id in dictionary_keys.keys():
 		return false
@@ -52,6 +57,9 @@ func _parse_property(object: Object, type: Variant.Type, name: String, hint_type
 	## Create the Editor
 	var names := PackedStringArray(dictionary_keys[id].keys())
 	
-	add_property_editor(name, StringEnumEditor.new(names))
+	## Create the label
+	var label: String = name.trim_suffix("_%s" % id).capitalize()
+	
+	add_property_editor(name, StringEnumEditor.new(names), false, label)
 		
 	return true
