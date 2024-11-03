@@ -4,7 +4,7 @@ This addon enables string to be used as an enum value.
 
 ### 1.0.0 UPDATE
 
-The addon uses enums in the script instead of the having the enum values stored in the project settings! Making it much easier to use.
+The addon uses enums in the script instead of having the enum values stored in the project settings! Making it much easier to use.
 
 ## Problems with standard enums
 
