@@ -5,7 +5,7 @@
 extends EditorProperty
 
 
-const NULL_VALUE := "none"
+const NULL_VALUE := "None"
 
 var is_updating := false
 var current_string: String = NULL_VALUE
